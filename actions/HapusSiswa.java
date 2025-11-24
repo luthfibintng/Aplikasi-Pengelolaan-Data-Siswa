@@ -20,4 +20,15 @@ public class HapusSiswa {
                 break;
             }
         }
+
+        if (target != null) {
+            Aplikasi.userList.remove(target);
+            DataManager.saveToFile(Aplikasi.userList);
+            System.out.println("Berhasil dihapus.");
+        } else {
+            System.out.println("Tidak ditemukan.");
+        }
+        Aplikasi.pressEnter();
+    }
+}
       
