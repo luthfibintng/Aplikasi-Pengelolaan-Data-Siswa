@@ -1,0 +1,48 @@
+package menu;
+
+import main.Aplikasi;
+import actions.*; // Import actions
+import model.Siswa;
+import model.User;
+
+public class MenuSiswa {
+
+    public static void akses() {
+        System.out.println("\n--- PORTAL SISWA ---");
+        System.out.println("1. Login");
+        System.out.println("2. Daftar Baru");
+        System.out.print("Pilih > ");
+        
+        String choice = Aplikasi.scanner.nextLine();
+        if (choice.equals("1")) login();
+        else if (choice.equals("2")) new RegisterSiswa().eksekusi(); // Panggil file terpisah
+    }
+
+    private static void login() {
+        // Panggil class LoginSystem
+        User user = new LoginSystem().eksekusi();
+
+        if (user != null && user instanceof Siswa) {
+            infoStatus((Siswa) user);
+        } else {
+            System.out.println("Login Gagal! Akun tidak ditemukan.");
+            Aplikasi.pressEnter();
+        }
+    }
+
+    private static void infoStatus(Siswa s) {
+        Aplikasi.cls();
+        System.out.println("Halo, " + s.getNamaLengkap());
+        System.out.println("NISN: " + s.getNisn());
+        System.out.println("STATUS: " + s.getStatusPendaftaran());
+        
+        if (s.getStatusPendaftaran().equals("DITERIMA")) {
+            System.out.println("Selamat! Anda diterima.");
+        } else if (s.getStatusPendaftaran().equals("DITOLAK")) {
+            System.out.println("Maaf, ditolak.");
+        } else {
+            System.out.println("Sedang diverifikasi.");
+        }
+        Aplikasi.pressEnter();
+    }
+}
