@@ -1,0 +1,45 @@
+package actions;
+
+import main.Aplikasi;
+import model.Siswa;
+import model.User;
+import util.DataManager;
+
+public class TambahSiswa {
+    public void eksekusi() {
+        System.out.println("\n--- TAMBAH SISWA ---");
+        System.out.print("Username: ");
+        String u = Aplikasi.scanner.nextLine();
+        
+        // Cek duplikat
+        for (User usr : Aplikasi.userList) {
+            if (usr.getUsername().equalsIgnoreCase(u)) {
+                System.out.println("Username sudah ada!");
+                Aplikasi.pressEnter();
+                return;
+            }
+        }
+        System.out.print("Password: ");
+        String p = Aplikasi.scanner.nextLine();
+        System.out.print("Nama Lengkap: ");
+        String n = Aplikasi.scanner.nextLine();
+
+        String nisn = "";
+        while (true) {
+            System.out.print("NISN (8 Karakter): ");
+            nisn = Aplikasi.scanner.nextLine();
+            if (nisn.length() == 8) break;
+            System.out.println("NISN harus 8 karakter.");
+        }
+
+        System.out.print("Tanggal Lahir (DD-MM-YYYY): ");
+        String tgl = Aplikasi.scanner.nextLine();
+
+        // Status default DITERIMA jika admin yang nambah
+        Siswa s = new Siswa(u, p, n, "DITERIMA", nisn, tgl);
+        Aplikasi.userList.add(s);
+        DataManager.saveToFile(Aplikasi.userList);
+        System.out.println("Siswa berhasil ditambahkan.");
+        Aplikasi.pressEnter();
+    }
+}
