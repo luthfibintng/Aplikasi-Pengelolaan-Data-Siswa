@@ -1,0 +1,51 @@
+package menu;
+
+import main.Aplikasi;
+import actions.*; // Import semua action
+import model.Admin;
+import model.User;
+
+public class MenuAdmin {
+
+    public static void login() {
+        System.out.println("\n--- LOGIN ADMIN ---");
+        // Panggil class LoginSystem dari package actions
+        User user = new LoginSystem().eksekusi();
+
+        if (user != null && user instanceof Admin) {
+            dashboard();
+        } else {
+            System.out.println("Gagal! Username/Pass salah atau bukan Admin.");
+            Aplikasi.pressEnter();
+        }
+    }
+
+    private static void dashboard() {
+        boolean back = false;
+        while (!back) {
+            Aplikasi.cls();
+            System.out.println("=== DASHBOARD ADMIN ===");
+            System.out.println("1. Tambah Siswa Manual");
+            System.out.println("2. Hapus Siswa");
+            System.out.println("3. Edit Data Siswa");
+            System.out.println("4. Lihat Data Siswa");
+            System.out.println("5. Verifikasi Pendaftaran");
+            System.out.println("0. Kembali");
+            System.out.print("Pilih > ");
+
+            String choice = Aplikasi.scanner.nextLine();
+            switch (choice) {
+                case "1" -> new TambahSiswa().eksekusi();     // Panggil file terpisah
+                case "2" -> new HapusSiswa().eksekusi();      // Panggil file terpisah
+                case "3" -> new EditSiswa().eksekusi();       // Panggil file terpisah
+                case "4" -> {
+                    new LihatSiswa().eksekusi();              // Panggil file terpisah
+                    Aplikasi.pressEnter();
+                }
+                case "5" -> new VerifikasiSiswa().eksekusi(); // Panggil file terpisah
+                case "0" -> back = true;
+                default -> System.out.println("Input salah.");
+            }
+        }
+    }
+}
